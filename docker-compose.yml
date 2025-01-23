@@ -1,0 +1,41 @@
+version: "3.9"
+
+services:
+  l2vibe_service:
+    container_name: l2vibe_service
+    build: 
+      context: ./
+      dockerfile: Dockerfile
+    env_file: .env
+    ports: 
+      - ${PORT}:${PORT}
+    environment:
+      - PORT=${PORT}
+      - PUBLIC_JWT_KEY=${PUBLIC_JWT_KEY}
+      - SECRET_JWT_KEY=${SECRET_JWT_KEY}
+      - DB_USERNAME=${DB_USERNAME}
+      - DB_PASSWORD=${DB_PASSWORD}
+      - DB_NAME=${DB_NAME}
+      - DB_PORT=${DB_PORT}
+    networks:
+      - public_network
+      - private_network
+    restart: always
+
+version: '3.1'
+
+services:
+
+  db:
+    image: mysql
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: example
+
+networks:
+  public_network:
+    driver: bridge
+
+  private_network:
+    driver: bridge
+    internal: true
