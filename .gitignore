@@ -4,3 +4,4 @@ jwt.key
 node_modules/
 .dockerignore
 Dockerfile
+.sequelizerc
