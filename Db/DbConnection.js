@@ -1,5 +1,5 @@
 const mysql = require("mysql2");
-const dbConfig = require("Crud_API\app\Db\db.config.js");
+const dbConfig = require("../config.js");
 
 const connection = mysql.createConnection({
     host: dbConfig.HOST,
