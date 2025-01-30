@@ -16,6 +16,11 @@ app.get("/", (req, res) => {
 });
 
 //user
+
+app.get('/api/user', authenticate, (req, res) => {
+    res.status(200).json({ user: req.user });
+});
+
 app.get('/api/token', (req, res) => {
     const payload = {
         name: 'Roma'
