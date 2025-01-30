@@ -1,4 +1,4 @@
-require('dotenv').config({ path: '../.env' });
+require('dotenv').config();
 const jwt = require('jsonwebtoken');
 
 
@@ -24,9 +24,7 @@ const verify = (token) => {
 
 module.exports.sign = (response) => {
     try {
-        console.log(process.env.SECRET_JWT_KEY)
-        console.log(require("dotenv").config())
-        return jwt.sign({ admin: true }, process.env.SECRET_JWT_KEY, { algorithm: 'RS256', expiresIn: '1h' });
+        return jwt.sign({ admin: true }, process.env.SECRET_JWT_KEY, { algorithm: 'RS256', expiresIn: '1d' });
     } catch (error) {
         response.status(500).json({ type: 'JWT Error', msg: "Sign Error" });
     }

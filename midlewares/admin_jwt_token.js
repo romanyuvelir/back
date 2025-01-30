@@ -40,7 +40,7 @@ const authenticate = (req, res, next) => {
         if (!user) {
             throw new CustomError("Error", "Access denied", 403);
         }
-        req.user = user; // добавляем пользователя в запрос
+        req.user = user;
         next();
     } catch (error) {
         res.status(error.code).json({ type: error.type, msg: error.message });
