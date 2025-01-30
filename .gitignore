@@ -3,6 +3,5 @@ jwt.key.pub
 jwt.key
 node_modules/
 .dockerignore
-Dockerfile
 .sequelizerc
 swager.js
