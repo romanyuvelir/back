@@ -2,7 +2,7 @@ const express = require("express");
 const bodyParser = require("body-parser");
 const jwt = require("jsonwebtoken");
 const cors = require("cors");
-const {sign, authenticate} = require("./midlewares/sign_ver_jwt_token");
+const {sign, authenticate} = require("../midlewares/sign_ver_jwt_token");
 
 const user = [];
 
@@ -19,12 +19,13 @@ module.exports = class User{
     }
 }
 
+const router = express.Router();
 
-app.get('/api/user', authenticate, (req, res) => {
+router.get('/api/user', authenticate, (req, res) => {
     res.status(200).json({ user: req.user });
 });
 
-app.get('/api/token', (req, res) => {
+router.get('/api/token', (req, res) => {
     const payload = {
         name: 'Roma'
     }
@@ -34,7 +35,7 @@ app.get('/api/token', (req, res) => {
     })
 });
 
-app.post('/api/resource', authenticate, (req, res) => {
+router.post('/api/resource', authenticate, (req, res) => {
     const { data } = req.body;
     if (!data) {
         return res.status(400).json({ error: 'Data is required' });
@@ -42,7 +43,7 @@ app.post('/api/resource', authenticate, (req, res) => {
     res.status(201).json({ message: 'Resource created', data });
 });
 
-app.put('/api/resource/:id', authenticate, (req, res) => {
+router.put('/api/resource/:id', authenticate, (req, res) => {
     const { id } = req.params;
     const { data } = req.body;
     if (!data) {
@@ -51,12 +52,12 @@ app.put('/api/resource/:id', authenticate, (req, res) => {
     res.status(200).json({ message: `Resource with ID ${id} updated`, data });
 });
 
-app.get('/api/resource/:id', authenticate, (req, res) => {
+router.get('/api/resource/:id', authenticate, (req, res) => {
     const { id } = req.params;
     res.status(200).json({ message: `Resource with ID ${id} found`, data: { id, name: 'Example Resource' } });
 });
 
-app.get('/api/token/:role', (req, res) => {
+router.get('/api/token/:role', (req, res) => {
     const { role } = req.params;
     const validRoles = ['admin', 'user'];
     if (!validRoles.includes(role)) {
@@ -65,3 +66,5 @@ app.get('/api/token/:role', (req, res) => {
     const token = sign({ role }, res);
     res.status(200).json({ token });
 });
+
+module.exports = router;

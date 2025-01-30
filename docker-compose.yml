@@ -22,15 +22,14 @@ services:
       - private_network
     restart: always
 
-version: '3.1'
-
-services:
-
   db:
     image: mysql
     restart: always
     environment:
-      MYSQL_ROOT_PASSWORD: example
+      MYSQL_ROOT_PASSWORD: "1234"
+      MYSQL_DATABASE: ${DB_NAME}
+      MYSQL_USER: ${DB_USERNAME}
+      MYSQL_PASSWORD: ${DB_PASSWORD}
 
 networks:
   public_network:
