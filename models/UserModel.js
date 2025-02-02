@@ -1,36 +1,28 @@
-const mysql = require('mysql2');
-const db = require('../config/sequelize');
+const { Sequelize, DataTypes } = require('sequelize');
+const sequelize = require('../config/sequelize');
 
-class User {
-  constructor(username, email, password) {
-    this.username = username;
-    this.email = email;
-    this.password = password;
-  }
-
-  save() {
-    db.query('INSERT INTO users (username, email, password) VALUES (?, ?, ?)', [this.username, this.email, this.password],
-      (err, res) => {
-        if(err) {
-          console.err('User save error', err);
-        }
+const User = sequelize.define('User', {
+    username: {
+        type: DataTypes.STRING(64),
+        allowNull: false,
+        unique: true
+    },
+    email: {
+      type: DataTypes.STRING(128),
+      unique: true,
+      allowNull: false,
+      validate: {
+          isEmail: true,
+          notEmpty:true
       }
-    );
-  }
-  
-  static getAll() {
-    return new Promise((resolve, reject) => {
-      db.query('SELECT * FROM users WHERE username = ?', [username],
-        (err, results) => {
-          if(err) {
-            reject(err);
-          } else {
-            resolve(results[0]);
-          }
-        }
-      );
-    });
-  }
-}
+    },
+    password: {
+        type: DataTypes.STRING(255),
+        allowNull: false
+    }
+}, {
+    tableName: 'users',
+    timestamps: true,
+});
 
 module.exports = User;

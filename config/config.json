@@ -1,9 +1,9 @@
 {
   "development": {
-    "username": "root",
+    "username": "lox",
     "password": "MySQL",
     "database": "db",
-    "host": "localhost",
+    "host": "backend-db-1",
     "dialect": "mysql"
   },
   "test": {

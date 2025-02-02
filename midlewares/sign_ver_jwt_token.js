@@ -1,9 +1,9 @@
 require('dotenv').config();
+const { response } = require('express');
 const jwt = require('jsonwebtoken');
 
-
 class CustomError {
-    constructor(type = "Error", message = "Error", code = 500) {
+    constructor(type = 'Error', message = 'Error', code = 500){
         this.type = type;
         this.message = message;
         this.code = code;
@@ -11,38 +11,42 @@ class CustomError {
 }
 
 const verify = (token) => {
-    return jwt.verify(token, process.env.PUBLIC_JWT_KEY, (error, user) => {
-        if (error) {
-            throw new CustomError(error.name, error.message, 500);
-        }
-        if (user.admin === undefined) {
-            throw new CustomError("Error", "The admin field does not exist", 500);
-        }
-        return user.admin;
+    return new Promise((resolve, reject) => {
+        jwt.verify(token, process.env.PUBLIC_JWT_KEY, (error, user) => {
+            if(err) {
+                return reject(new CustomError(err.name, error.message, 500));
+            }
+            if(user.admin === undefined) {
+                return reject(new CustomError('Error', 'The admin field doesn`t exist', 500));
+            }
+            resolve(user.admin);
+        });
     });
-}
+};
 
-module.exports.sign = (response) => {
+module.exports.sign = (res) => {
     try {
-        return jwt.sign({ admin: true }, process.env.SECRET_JWT_KEY, { algorithm: 'RS256', expiresIn: '1d' });
-    } catch (error) {
-        response.status(500).json({ type: 'JWT Error', msg: "Sign Error" });
+        return jwt.sign({admin:true}, process.env.SECRET_JWT_KEY,{algorithm: 'RS256', expiresIn: '1h'});
+    } catch(err) {
+        res.status(500).json({type: 'JWT Error', message: "Sign Error"});
     }
 }
 
-module.exports.authenticate = (request, response, next) => {
+module.exports.authenticate = (req, res, next) => {
     try {
-        const authHeader = request.headers['authorization'];
-        const allToken = authHeader && authHeader.split(' ')[1];
-        if (!allToken) {
-            throw new CustomError("Error", "Token is NULL", 401);
+        const authHeader = req.headers['authorization'];
+        const token = authHeader && authHeader.split(' ')[1];
+        if(!token) {
+            throw new CustomError("Error", "Token is NULL", 400);
         }
-        const result = verify(allToken);
-        if (!result) {
-            throw new CustomError("Error", "Access denied", 403);
+
+        const result = verify(token);
+        if(!result) {
+            throw new CustomError("Error", "Access denied", 400);
         }
+
         next();
-    } catch (error) {
-        response.status(error.code).json({ type: error.type, msg: error.message });
+    } catch(err) {
+        res.status(err.code).json({type: err.type, msg: err.message});
     }
 }

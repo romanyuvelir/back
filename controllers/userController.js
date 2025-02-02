@@ -23,7 +23,7 @@ module.exports.register = (req, res) => {
     const payload = {username: newUser.username, email: newUser.email, role: 'user'};
     const token = sign(payload);
     
-    res.status(200).json({message: 'User is registered'});
+    res.status(200).json({message: 'User is registered', token});
   } catch(err) {
     res.status(500).json({message: 'Server Error'});
   }
