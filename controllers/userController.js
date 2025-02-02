@@ -19,6 +19,9 @@ module.exports.register = (req, res) => {
 
     const newUser = new User(email, username, hashedPassword);
     newUser.save();
+
+    const payload = {username: newUser.username, email: newUser.email, role: 'user'};
+    const token = sign(payload);
     
     res.status(200).json({message: 'User is registered'});
   } catch(err) {
@@ -44,7 +47,7 @@ module.exports.logins = (req, res) => {
       return res.status(400).json({message: 'Wrong password'});
     }
 
-    const payload = {username: user.username, role: 'user'};
+    const payload = {username: user.username, email: user.email, role: 'user'};
     const token = sign(payload);
 
     res.status(200).json({token});
