@@ -3,7 +3,8 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "nodemon": "nodemon fserver.js"
+    "nodemon": "nodemon fserver.js",
+    "start": "docker compose up --build -d"
   },
   "keywords": [],
   "author": "",
