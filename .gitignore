@@ -5,4 +5,4 @@ node_modules/
 .dockerignore
 .sequelizerc
 swager.js
-../controllers/admin.controller.js
+admin.controller.js
