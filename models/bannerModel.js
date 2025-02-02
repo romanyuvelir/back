@@ -1,5 +1,5 @@
 const {Sequelize, DataTypes, Model} = require('sequelize');
-const sequelize = require('../config/DbConfig');
+const sequelize = require('../config/sequelize');
 
 const Banner = sequelize.define('Banner', {
     bannerFileName: {

@@ -1,5 +1,5 @@
 const mysql = require('mysql2');
-const db = require('../config/DbConfig');
+const db = require('../config/sequelize');
 
 class User {
   constructor(username, email, password) {
