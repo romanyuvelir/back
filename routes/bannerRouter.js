@@ -1,5 +1,5 @@
 const {Router} = require('express');
-const {banner} = require('../controllers/bannerController');
+const banner = require('../controllers/bannerController');
 const multer = require('../midlewares/multer');
 const {authenticate} = require('../midlewares/sign_ver_jwt_token')
 

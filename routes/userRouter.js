@@ -4,10 +4,9 @@ const {authenticate} = require('../midlewares/sign_ver_jwt_token');
 
 const router = express.Router();
 
-console.log(userController)
 
 router.post('/register', userController.register);
-router.post('/login', userController.register);
+router.post('/login', userController.logins);
 router.post('/api/resource', authenticate, (req, res) => {
     const {data} = req.body;
     if(!data) {
