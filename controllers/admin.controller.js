@@ -1,8 +1,10 @@
-const express = require("express");
+/*const express = require("express");
 const bodyParser = require("body-parser");
 const jwt = require("jsonwebtoken");
 const cors = require("cors");
 const {sign, authenticate} = require("./midlewares/sign_ver_jwt_token");
+
+const app = express();
 
 const Admin = (req, res, next) => {
     if (!req.user || req.user.role !== 'admin') {
@@ -45,4 +47,4 @@ app.get('/api/verify', (req, res, next) => {
             message: 'Invalid token'
         })
     }
-})
+})*/

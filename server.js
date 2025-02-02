@@ -5,7 +5,7 @@ const cors = require("cors");
 const {sign, authenticate} = require("./midlewares/sign_ver_jwt_token");
 
 const app = express();
-const router = require("./models/user.model")
+const router = require("./controllers/userController")
 
 app.use(bodyParser.json());
 app.use(cors());

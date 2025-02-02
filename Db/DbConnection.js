@@ -1,16 +1,23 @@
-const mysql = require("mysql2");
-const dbConfig = require("../config.js");
+const mysql = require('mysql2');
+const express = require('express');
+const cors = require('cors');
+
+const dbconnection = express();
+dbconnection.use(cors());
 
 const connection = mysql.createConnection({
-    host: dbConfig.HOST,
-    user: dbConfig.USER,
-    password: dbConfig.PASSWORD,
-    database: dbConfig.DB,
+    host: 'localhost',
+    user: 'root',
+    password: 'MySQL',
 });
 
-connection.connect(err => {
-    if(err) throw error;
-    console.log("Works");
-})
+connection.connect((err) => {
+    if(err) throw new Error(err);
+    console.log("Connected");
+    connection.query("CREATE DATABASE IF NOT EXISTS db", (err) => {
+        if(err) throw new Error(err);
+        console.log("Db created");
+    })
+});
 
-module.exports = connection;
+dbconnection.listen(3001)
